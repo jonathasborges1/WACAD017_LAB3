@@ -1,0 +1,26 @@
+name: Teste de Pipeline
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    steps:
+    - name: Verificar repositório
+      uses: actions/checkout@v3
+
+    - name: Configurar o Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Instalar dependências
+      run: npm install
+      working-directory: ./lab03_01
+
+
+    - name: Executar os testes
+      run: npm test -- --coverage
+      working-directory: ./lab03_01
